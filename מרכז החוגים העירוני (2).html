@@ -1,0 +1,587 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>מרכז החוגים העירוני</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Secular+One&display=swap">
+<style>
+/* Layout: sticky nav, oversized type hero with a ticket-stub, ticket-shaped class cards, then updates, quality ranking, forum and polls. Dark-first. */
+:root{
+  --bg:#0c1022; --surface:#151a33; --surface2:#1c2342; --line:#2a3262;
+  --fg:#eef0ff; --muted:#a2aad6;
+  --sun:#ffb627; --aqua:#35e0c2; --coral:#ff6b81; --on-sun:#1a1203;
+  --font-display:'Secular One','Assistant',system-ui,sans-serif;
+  --font-body:'Assistant',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --bg:#f1f4fb; --surface:#ffffff; --surface2:#e8ecf8; --line:#d3d9ee;
+    --fg:#11152e; --muted:#525c88;
+    --sun:#f5a000; --aqua:#008f7a; --coral:#d92d4a; --on-sun:#1a1203;
+    color-scheme:light;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f1f4fb; --surface:#ffffff; --surface2:#e8ecf8; --line:#d3d9ee;
+  --fg:#11152e; --muted:#525c88;
+  --sun:#f5a000; --aqua:#008f7a; --coral:#d92d4a; --on-sun:#1a1203;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:17px;line-height:1.55}
+#app{overflow-x:clip}
+.wrap{max-width:1180px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.1;margin:0;text-wrap:balance}
+a{color:inherit}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--aqua);outline-offset:2px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;border:0;border-radius:999px;padding:.8rem 1.5rem;font-weight:700;cursor:pointer;text-decoration:none;background:var(--sun);color:var(--on-sun);transition:transform .15s ease,box-shadow .15s ease}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px var(--sun)}
+.btn.ghost{background:transparent;color:var(--fg);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.ghost:hover{box-shadow:inset 0 0 0 2px var(--aqua)}
+.btn.sm{padding:.5rem 1rem;font-size:.95rem}
+.eyebrow{font-weight:700;letter-spacing:.08em;font-size:.85rem;color:var(--aqua)}
+
+/* nav */
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.7rem}
+.brand{font-family:var(--font-display);font-size:1.35rem;display:flex;align-items:center;gap:.6rem;text-decoration:none}
+.brand i{width:2rem;height:2rem;border-radius:.6rem;background:conic-gradient(from 200deg,var(--sun),var(--coral),var(--aqua),var(--sun));display:inline-block}
+.nav ul{display:flex;gap:1.2rem;list-style:none;margin:0;padding:0;overflow-x:auto;scrollbar-width:none}
+.nav ul a{text-decoration:none;color:var(--muted);font-weight:600;white-space:nowrap}
+.nav ul a:hover{color:var(--fg)}
+@media (max-width:760px){.nav ul{display:none}}
+
+/* hero */
+.hero{position:relative;padding-block:clamp(2.5rem,7vw,5.5rem) 3rem;background:
+  radial-gradient(600px 400px at 85% 10%,color-mix(in srgb,var(--coral) 35%,transparent),transparent 70%),
+  radial-gradient(700px 500px at 10% 90%,color-mix(in srgb,var(--aqua) 28%,transparent),transparent 70%)}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:2.5rem;align-items:center}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr}}
+.hero h1{font-size:clamp(2.8rem,8.5vw,6.2rem);margin-block:.8rem 1.2rem}
+.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--sun),var(--coral) 60%,var(--aqua));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:1.25rem;color:var(--muted);max-width:34ch;margin:0 0 1.8rem}
+.cta{display:flex;flex-wrap:wrap;gap:.8rem}
+.stub{position:relative;background:var(--surface);border-radius:1.4rem;padding:1.6rem 1.6rem 1.4rem;transform:rotate(-3deg);box-shadow:0 30px 60px -30px #000a;border:1px solid var(--line)}
+.stub::before,.stub::after{content:"";position:absolute;top:58%;width:1.6rem;height:1.6rem;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.stub::before{right:-.8rem}.stub::after{left:-.8rem}
+.stub .cut{border-top:3px dashed var(--line);margin:1rem 0}
+.stub small{color:var(--muted);font-weight:600}
+.stub b.big{display:block;font-family:var(--font-display);font-weight:400;font-size:1.9rem;line-height:1.15}
+.stub .bar{display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.stub .code{font-family:ui-monospace,monospace;letter-spacing:.2em;color:var(--sun);direction:ltr}
+
+/* marquee */
+.marquee{overflow:hidden;border-block:1px solid var(--line);background:var(--surface);padding-block:.9rem;direction:ltr}
+.marquee .track{display:flex;gap:3rem;width:max-content;animation:slide 40s linear infinite;font-family:var(--font-display);font-size:1.5rem;color:var(--muted);direction:rtl}
+.marquee span::after{content:"✦";color:var(--sun);margin-inline-start:3rem}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee .track{animation:none}}
+
+section.block{padding-block:clamp(3rem,7vw,5.5rem)}
+.sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:2rem}
+.sec-head h2{font-size:clamp(2rem,5vw,3.2rem)}
+.sec-head p{margin:.4rem 0 0;color:var(--muted);max-width:52ch}
+
+/* catalog */
+.tools{display:flex;flex-wrap:wrap;gap:.7rem;margin-bottom:1.6rem;align-items:center}
+.chip{border:1px solid var(--line);background:transparent;border-radius:999px;padding:.45rem 1rem;cursor:pointer;font-weight:600;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.search{flex:1;min-width:200px;max-width:320px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:.55rem 1.1rem}
+.demo-tag{font-size:.8rem;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:.1rem .5rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:1.4rem}
+.ticket{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:1.3rem;overflow:hidden;min-width:0}
+.ticket .art{height:128px;position:relative;display:grid;place-items:center;overflow:hidden}
+.ticket .art b{font-family:var(--font-display);font-weight:400;font-size:6rem;line-height:1;color:#fff;opacity:.92;mix-blend-mode:overlay}
+.ticket .art .cat{position:absolute;top:.8rem;right:.8rem;background:#0008;color:#fff;border-radius:999px;font-size:.78rem;padding:.15rem .7rem;font-weight:700}
+.ticket .body{padding:1.1rem 1.2rem .3rem;display:flex;flex-direction:column;gap:.5rem}
+.ticket h3{font-size:1.45rem}
+.ticket .meta{display:grid;gap:.2rem;color:var(--muted);font-size:.95rem}
+.ticket .perf{position:relative;border-top:3px dashed var(--line);margin:.6rem 0 0}
+.ticket .perf::before,.ticket .perf::after{content:"";position:absolute;top:-1.1rem;width:1.5rem;height:1.5rem;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.ticket .perf::before{right:-.95rem}.ticket .perf::after{left:-.95rem}
+.ticket .foot{padding:.9rem 1.2rem 1.2rem;display:flex;flex-direction:column;gap:.7rem}
+.price{display:flex;align-items:baseline;justify-content:space-between;gap:.5rem}
+.price b{font-family:var(--font-display);font-weight:400;font-size:1.7rem;font-variant-numeric:tabular-nums}
+.seats{height:6px;border-radius:9px;background:var(--surface2);overflow:hidden}
+.seats i{display:block;height:100%;background:var(--aqua)}
+.seats.low i{background:var(--coral)}
+.seat-txt{font-size:.85rem;color:var(--muted)}
+.stars{display:flex;align-items:center;gap:.15rem}
+.stars button{border:0;background:none;padding:.1rem;cursor:pointer;font-size:1.25rem;line-height:1;color:var(--line)}
+.stars button.on{color:var(--sun)}
+.stars button:disabled{cursor:default}
+.stars .avg{font-size:.85rem;color:var(--muted);margin-inline-start:.5rem}
+.paytag{font-size:.78rem;color:var(--muted)}
+
+/* updates */
+.updates{display:grid;grid-template-columns:1.2fr .8fr;gap:1.6rem}
+@media (max-width:900px){.updates{grid-template-columns:1fr}}
+.news{display:grid;gap:1rem}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:1.2rem;padding:1.3rem 1.4rem;min-width:0}
+.news article h3{font-size:1.35rem;margin:.3rem 0 .4rem}
+.news article p{margin:0;color:var(--muted)}
+.tag{display:inline-block;font-size:.78rem;font-weight:700;border-radius:999px;padding:.1rem .7rem;background:var(--surface2);color:var(--aqua)}
+.cal{display:grid;gap:.8rem}
+.cal li{list-style:none;display:flex;gap:1rem;align-items:center}
+.cal ul{margin:0;padding:0;display:grid;gap:.9rem}
+.date{flex:none;width:3.6rem;text-align:center;border-radius:.9rem;background:var(--surface2);padding:.4rem 0}
+.date b{display:block;font-family:var(--font-display);font-weight:400;font-size:1.6rem;line-height:1}
+.date small{color:var(--muted);font-weight:600}
+
+/* ranking */
+.rank{display:grid;gap:.8rem}
+.rank-row{display:grid;grid-template-columns:minmax(0,11rem) 1fr 4.5rem;gap:1rem;align-items:center}
+.rank-row .nm{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rank-row .track{height:14px;border-radius:99px;background:var(--surface2);overflow:hidden}
+.rank-row .track i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--sun),var(--coral))}
+.rank-row .val{font-variant-numeric:tabular-nums;color:var(--muted);text-align:left}
+@media (max-width:520px){.rank-row{grid-template-columns:1fr 3.5rem}.rank-row .track{grid-column:1/-1;order:3}}
+
+/* poll */
+.poll{display:grid;gap:.7rem}
+.opt{position:relative;display:flex;justify-content:space-between;gap:1rem;align-items:center;border:1px solid var(--line);border-radius:.9rem;padding:.8rem 1rem;background:transparent;cursor:pointer;text-align:start;overflow:hidden}
+.opt i.fill{position:absolute;inset-block:0;right:0;background:color-mix(in srgb,var(--aqua) 22%,transparent);z-index:0;transition:width .4s}
+.opt span{position:relative;z-index:1}
+.opt[aria-pressed="true"]{border-color:var(--aqua)}
+.opt:disabled{cursor:default}
+
+/* forum */
+.forum{display:grid;grid-template-columns:.8fr 1.2fr;gap:1.6rem;align-items:start}
+@media (max-width:900px){.forum{grid-template-columns:1fr}}
+form.compose{display:grid;gap:.8rem}
+form.compose input,form.compose textarea,form.compose select,.reply-form input{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:.8rem;padding:.7rem .9rem}
+form.compose textarea{min-height:110px;resize:vertical}
+label.f{display:grid;gap:.3rem;font-weight:600;font-size:.92rem}
+.posts{display:grid;gap:1rem}
+.post h3{font-size:1.3rem;margin:.4rem 0}
+.post .by{color:var(--muted);font-size:.88rem}
+.post p{margin:.4rem 0;white-space:pre-wrap;overflow-wrap:anywhere}
+.replies{margin-top:.8rem;padding-inline-start:1rem;border-inline-start:3px solid var(--line);display:grid;gap:.6rem}
+.replies p{margin:0;font-size:.97rem;white-space:pre-wrap;overflow-wrap:anywhere}
+.reply-form{display:flex;gap:.5rem;margin-top:.8rem}
+.link{background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline;padding:0;font-size:.85rem}
+.note{color:var(--muted);font-size:.95rem}
+.empty{border:2px dashed var(--line);border-radius:1.2rem;padding:2rem;text-align:center;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);padding-block:2.5rem;color:var(--muted)}
+.foot-grid{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1.5rem}
+.pic{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ticket .art .cat{z-index:1}
+.ov{position:fixed;inset:0;background:#000b;z-index:60;overflow:auto;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.panel{max-width:980px;margin:0 auto;background:var(--bg);border:1px solid var(--line);border-radius:1.2rem;padding:1.4rem;display:grid;gap:1.6rem}
+.panel h2{font-size:1.8rem}.panel h3{font-size:1.25rem;margin-bottom:.8rem}
+.panel input:not([type=checkbox]):not([type=file]),.panel select{width:100%;background:var(--surface);border:1px solid var(--line);border-radius:.7rem;padding:.6rem .8rem}
+.a-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.8rem}
+@media (max-width:640px){.a-grid{grid-template-columns:1fr}}
+.a-cols{display:grid;grid-template-columns:.8fr 1.2fr;gap:1.2rem;align-items:start}
+@media (max-width:820px){.a-cols{grid-template-columns:1fr}}
+.a-list{display:grid;gap:.5rem}
+.a-row{display:flex;justify-content:space-between;gap:.6rem;align-items:center;border:1px solid var(--line);border-radius:.8rem;padding:.5rem .8rem;background:var(--surface);min-width:0}
+.a-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.a-row.sel{border-color:var(--aqua)}
+.a-prev{width:100%;max-width:260px;aspect-ratio:16/9;object-fit:cover;border-radius:.8rem;border:1px solid var(--line);background:var(--surface2)}
+.a-bar{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.btn.danger{background:var(--coral);color:#fff}
+.toast{position:fixed;inset-inline:0;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));margin-inline:auto;width:max-content;max-width:calc(100% - 32px);background:var(--fg);color:var(--bg);padding:.8rem 1.3rem;border-radius:999px;font-weight:700;z-index:50;opacity:0;pointer-events:none;transform:translateY(12px);transition:.25s}
+.toast.show{opacity:1;transform:none}
+</style>
+
+<div id="app" dir="rtl" lang="he">
+<header class="top"><div class="wrap nav">
+  <a class="brand" href="#top"><i id="logoMark"></i><span id="brandName">מרכז החוגים</span></a>
+  <ul>
+    <li><a href="#classes">חוגים וסדנאות</a></li>
+    <li><a href="#updates">עדכונים</a></li>
+    <li><a href="#quality">איכות הפעילות</a></li>
+    <li><a href="#forum">פורום</a></li>
+    <li><a href="#polls">הצבעה</a></li>
+  </ul>
+  <span style="display:flex;gap:.5rem"><button class="btn ghost sm" id="adminBtn" type="button" hidden>ניהול</button><a class="btn sm" href="#classes">לרכישת כרטיסים</a></span>
+</div></header>
+
+<main id="top">
+<section class="hero"><div class="wrap hero-grid">
+  <div>
+    <span class="eyebrow">חוגים · סדנאות · קהילה</span>
+    <h1>העיר שלנו <em>לומדת, יוצרת ונפגשת.</em></h1>
+    <p class="lead">כל החוגים והסדנאות של העירייה במקום אחד. בוחרים, רוכשים כרטיס, ומגיעים.</p>
+    <div class="cta">
+      <a class="btn" href="#classes">לכל החוגים</a>
+      <a class="btn ghost" href="#forum">לפורום הקהילה</a>
+    </div>
+  </div>
+  <aside class="stub" aria-label="כרטיס לדוגמה">
+    <small>הכרטיס הבא שלכם</small>
+    <b class="big" id="stubTitle"></b>
+    <div class="cut"></div>
+    <div class="bar"><div><small id="stubWhen"></small></div><span class="code" id="stubCode"></span></div>
+  </aside>
+</div></section>
+
+<div class="marquee" aria-hidden="true"><div class="track" id="marq"></div></div>
+
+<section class="block" id="classes"><div class="wrap">
+  <div class="sec-head">
+    <div><span class="eyebrow">קטלוג</span><h2>בוחרים חוג, קונים כרטיס</h2>
+    <p>הרכישה מתבצעת באתר הסליקה המאובטח של קליקט או של נדרים פלוס, ומיד אחריה מקבלים אישור.</p></div>
+    <span class="demo-tag">החוגים המוצגים הם דוגמה להחלפה</span>
+  </div>
+  <div class="tools">
+    <div id="chips" role="group" aria-label="סינון לפי קטגוריה" style="display:flex;flex-wrap:wrap;gap:.5rem"></div>
+    <input class="search" id="q" type="search" placeholder="חיפוש חוג…" aria-label="חיפוש חוג">
+  </div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section class="block" id="updates" style="background:var(--surface)"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">מהעירייה</span><h2>מה חדש בעיר</h2>
+  <p>הודעות, שינויי מועדים ואירועים קרובים.</p></div></div>
+  <div class="updates">
+    <div class="news" id="news"></div>
+    <div class="card cal"><h3>יומן קרוב</h3><ul id="cal"></ul></div>
+  </div>
+</div></section>
+
+<section class="block" id="quality"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">דירוג הקהילה</span><h2>איכות הפעילות</h2>
+  <p>הדירוג מתעדכן לפי הציונים של המשתתפים. כל משתמש מדרג כל חוג פעם אחת ויכול לשנות את הציון.</p></div></div>
+  <div class="card"><div class="rank" id="rank"></div><p class="note" id="rankNote" style="margin:1rem 0 0"></p></div>
+</div></section>
+
+<section class="block" id="forum" style="background:var(--surface)"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">שיחה פתוחה</span><h2>פורום הקהילה</h2>
+  <p>שאלות, הצעות לחוגים חדשים ומשוב. נא לשמור על שיח מכבד וענייני.</p></div></div>
+  <div class="forum">
+    <form class="card compose" id="postForm">
+      <h3>פתיחת נושא חדש</h3>
+      <label class="f" for="pCat">קטגוריה
+        <select id="pCat"><option>כללי</option><option>הצעה לחוג חדש</option><option>משוב על חוג</option><option>שאלה לצוות</option></select></label>
+      <label class="f" for="pTitle">כותרת<input id="pTitle" maxlength="90" required></label>
+      <label class="f" for="pBody">תוכן<textarea id="pBody" maxlength="1500" required></textarea></label>
+      <button class="btn" type="submit">פרסום</button>
+      <p class="note" id="forumNote"></p>
+    </form>
+    <div class="posts" id="posts"><div class="empty">טוען שיחות…</div></div>
+  </div>
+</div></section>
+
+<section class="block" id="polls"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">אתם מחליטים</span><h2>איזה חוג נפתח בעונה הבאה?</h2>
+  <p>הצבעה אחת לכל משתמש. החוג עם הכי הרבה קולות ייפתח ראשון.</p></div></div>
+  <div class="card"><div class="poll" id="poll"></div><p class="note" id="pollNote" style="margin:1rem 0 0"></p></div>
+</div></section>
+</main>
+
+<footer><div class="wrap foot-grid">
+  <div><b style="color:var(--fg)" id="footName"></b><br>הרשות החרדית · חוגים וסדנאות לקהילה</div>
+  <div id="contact"></div>
+</div></footer>
+<div class="ov" id="adminOv" hidden><div class="panel" id="adminPanel" role="dialog" aria-modal="true" aria-label="ניהול האתר"></div></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+/* ===== הגדרות לעריכה ===== */
+const CONFIG = {
+  city: 'נוף הגליל',                 // שם העיר או הרשות
+  providers: {
+    clicket:  { label: 'קליקט',       url: '' },   // קישור כללי לקליקט (אפשר גם קישור לכל חוג)
+    nedarim:  { label: 'נדרים פלוס',  url: '' }    // קישור כללי לנדרים פלוס
+  },
+  contact: 'טלפון: _____ · דוא״ל: _____',
+  pollOptions: [
+    { id: 'chess-kids', label: 'שחמט לילדים' },
+    { id: 'pottery',    label: 'סדנת קרמיקה' },
+    { id: 'photo',      label: 'סדנת צילום' },
+    { id: 'drums',      label: 'תופים למתחילים' },
+    { id: 'english',    label: 'אנגלית שיחה' }
+  ]
+};
+const DEMO = [
+  { id:'chess',  title:'שחמט למתקדמים',        cat:'חשיבה ושחמט', when:'ימי ב׳ · 18:00', place:'מתנ״ס מרכזי', price:180, seats:16, taken:11, provider:'clicket', color:['#5b4bff','#35e0c2'] },
+  { id:'wood',   title:'נגרות יצירתית',        cat:'יצירה',       when:'ימי ג׳ · 19:00', place:'בית היוצר',   price:260, seats:12, taken:11, provider:'nedarim', color:['#ff8a3d','#ff6b81'] },
+  { id:'photo',  title:'צילום דיגיטלי',        cat:'אמנות',       when:'ימי ד׳ · 19:30', place:'גלריה עירונית', price:220, seats:14, taken:6,  provider:'clicket', color:['#35e0c2','#2f7bff'] },
+  { id:'python', title:'תכנות בפייתון לנוער',  cat:'טכנולוגיה',   when:'ימי א׳ · 17:00', place:'מרכז הנוער',   price:240, seats:20, taken:17, provider:'clicket', color:['#2f7bff','#a45bff'] },
+  { id:'oil',    title:'ציור בשמן',            cat:'אמנות',       when:'ימי ה׳ · 18:00', place:'גלריה עירונית', price:230, seats:10, taken:4,  provider:'nedarim', color:['#ffb627','#ff6b81'] },
+  { id:'guitar', title:'גיטרה למתחילים',       cat:'מוזיקה',      when:'ימי ב׳ · 19:30', place:'בית המוזיקה',  price:200, seats:12, taken:12, provider:'nedarim', color:['#ff6b81','#a45bff'] },
+  { id:'bread',  title:'אפיית לחמים',          cat:'יצירה',       when:'ימי ג׳ · 17:30', place:'מטבח קהילתי',  price:190, seats:12, taken:8,  provider:'clicket', color:['#ffb627','#35e0c2'] },
+  { id:'bike',   title:'רכיבת אופניים בטבע',   cat:'ספורט ותנועה',when:'שישי · 07:00',   place:'פארק העיר',    price:60,  seats:25, taken:9,  provider:'nedarim', color:['#35e0c2','#7bd84a'] },
+  { id:'finance',title:'ניהול תקציב משפחתי',   cat:'ידע ומיומנויות',when:'ימי ד׳ · 20:00',place:'מתנ״ס מרכזי', price:90,  seats:30, taken:12, provider:'clicket', color:['#2f7bff','#35e0c2'] },
+  { id:'run',    title:'ריצה לכושר',           cat:'ספורט ותנועה',when:'ימי א׳ · 06:00', place:'פארק העיר',    price:120, seats:30, taken:21, provider:'clicket', color:['#ff6b81','#ffb627'] }
+];
+const NEWS = [
+  { tag:'הרשמה', title:'ההרשמה לעונת החורף נפתחה', text:'כל החוגים החדשים זמינים לרכישה. מומלץ להקדים, במספר חוגים נותרו מקומות אחרונים.' },
+  { tag:'שינוי מועד', title:'עדכון מועדי הפעילות בחגים', text:'בשבוע החג לא יתקיימו חוגי הערב. החוגים יתחדשו כסדרם ביום ראשון שאחריו.' },
+  { tag:'חדש', title:'מרכז הנוער מתחדש', text:'אולם הפעילות עבר שיפוץ והוא כולל כעת ציוד חדש לחוגי הטכנולוגיה והיצירה.' }
+];
+const EVENTS = [
+  { d:'02', m:'דצמ׳', t:'יום פתוח בבית היוצר' },
+  { d:'09', m:'דצמ׳', t:'ערב שחמט קהילתי' },
+  { d:'15', m:'דצמ׳', t:'תערוכת תלמידי הציור' },
+  { d:'21', m:'דצמ׳', t:'מסלול אופניים משפחתי' }
+];
+
+/* ===== כלים ===== */
+const $ = s => document.querySelector(s);
+const h = (tag, props = {}, ...kids) => { const e = document.createElement(tag); for (const k in props) { if (k === 'class') e.className = props[k]; else if (k.startsWith('on')) e.addEventListener(k.slice(2), props[k]); else if (k === 'text') e.textContent = props[k]; else e.setAttribute(k, props[k]); } kids.flat().forEach(c => e.append(c)); return e; };
+let toastT;
+const toast = m => { const t = $('#toast'); t.textContent = m; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2800); };
+const fmtDate = ts => { try { return new Intl.DateTimeFormat('he-IL', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }).format(ts); } catch (e) { return ''; } };
+const nis = n => '₪' + n.toLocaleString('he-IL');
+
+$('#brandName').textContent = 'חוגים ב' + CONFIG.city;
+$('#footName').textContent = CONFIG.city;
+$('#contact').textContent = CONFIG.contact;
+
+/* ===== מצב ===== */
+const DEF = ['#5b4bff','#35e0c2'];
+const getClasses = () => S.classes.length ? S.classes : DEMO;
+const S = { classes: [], site: {},  uid: null, db: null, user: null, ratings: {}, votesDocs: [], posts: [], replies: [], cat: 'הכל', q: '', open: {} , dbLive: false };
+const myDoc = () => (S.votesDocs.find(d => d.id === S.uid) || {}).data || {};
+
+/* ===== חוגים ===== */
+function stubInit() {
+  $('#marq').textContent = '';
+  const c = getClasses().find(x => !x.hidden && (x.taken || 0) < x.seats) || getClasses()[0];
+  if (!c) return;
+  $('#stubTitle').textContent = c.title; $('#stubWhen').textContent = (c.when || '') + ' · ' + (c.place || '');
+  $('#stubCode').textContent = 'No. ' + String(Math.abs([...c.id].reduce((a, ch) => a * 31 + ch.charCodeAt(0), 7)) % 9000 + 1000);
+  const names = getClasses().map(c => c.title); const row = [...names, ...names].map(n => h('span', { text: n }));
+  $('#marq').append(...row);
+}
+function renderChips() {
+  const cats = ['הכל', ...new Set(getClasses().map(c => c.cat))];
+  const box = $('#chips'); box.textContent = '';
+  cats.forEach(c => box.append(h('button', { class: 'chip', type: 'button', 'aria-pressed': String(c === S.cat), text: c, onclick: () => { S.cat = c; renderChips(); renderGrid(); } })));
+}
+function ratingOf(id) { const r = S.ratings[id]; return r ? { avg: r.sum / r.n, n: r.n } : { avg: 0, n: 0 }; }
+function renderGrid() {
+  const g = $('#grid'); g.textContent = '';
+  const list = getClasses().filter(c => !c.hidden && (S.cat === 'הכל' || c.cat === S.cat) && (!S.q || (c.title + c.cat + c.place).includes(S.q)));
+  if (!list.length) { g.append(h('div', { class: 'empty', text: 'לא נמצאו חוגים. נסו קטגוריה אחרת.' })); return; }
+  const mine = myDoc().ratings || {};
+  list.forEach(c => {
+    const taken = c.taken || 0, left = (c.seats || 0) - taken, full = left <= 0, low = !full && left <= 3, pct = c.seats ? Math.min(100, taken / c.seats * 100) : 100;
+    const prov = CONFIG.providers[c.provider] || CONFIG.providers.clicket, url = c.url || prov.url, pv = prov.label;
+    const r = ratingOf(c.id);
+    const stars = h('div', { class: 'stars', role: 'group', 'aria-label': 'דירוג החוג' });
+    for (let i = 1; i <= 5; i++) stars.append(h('button', { type: 'button', class: i <= (mine[c.id] || 0) ? 'on' : '', 'aria-label': i + ' כוכבים', text: '★', onclick: () => rate(c.id, i) }));
+    stars.append(h('span', { class: 'avg', text: r.n ? r.avg.toFixed(1) + ' (' + r.n + ')' : 'אין דירוגים עדיין' }));
+    const buy = h(full ? 'button' : 'a', full ? { class: 'btn ghost', disabled: '', text: 'אזל מהמלאי' } : Object.assign({ class: 'btn', text: 'רכישת כרטיס · ' + nis(c.price) }, url ? { href: url, target: '_blank', rel: 'noopener' } : { href: '#classes', onclick: ev => { ev.preventDefault(); toast('קישור הרכישה יוגדר על ידי הצוות בקרוב'); } }));
+    g.append(h('article', { class: 'ticket' },
+      h('div', { class: 'art', style: 'background:linear-gradient(135deg,' + (c.color || DEF)[0] + ',' + (c.color || DEF)[1] + ')' }, (c.imageId ? h('img', { class: 'pic', src: '/_blob/' + c.imageId, alt: '' }) : h('b', { text: c.title[0], 'aria-hidden': 'true' })), h('span', { class: 'cat', text: c.cat })),
+      h('div', { class: 'body' }, h('h3', { text: c.title }), h('div', { class: 'meta' }, h('span', { text: '🕒 ' + c.when }), h('span', { text: '📍 ' + c.place }))),
+      h('div', { class: 'perf' }),
+      h('div', { class: 'foot' },
+        h('div', { class: 'price' }, h('b', { text: nis(c.price) }), h('span', { class: 'paytag', text: 'תשלום ב' + pv })),
+        h('div', {}, h('div', { class: 'seats' + (low ? ' low' : '') }, h('i', { style: 'width:' + pct + '%' })), h('span', { class: 'seat-txt', text: full ? 'המקומות הסתיימו' : low ? 'נותרו רק ' + left + ' מקומות' : 'נותרו ' + left + ' מקומות' })),
+        stars, buy)));
+  });
+}
+$('#q').addEventListener('input', e => { S.q = e.target.value.trim(); renderGrid(); });
+
+/* ===== עדכונים ===== */
+NEWS.forEach(n => $('#news').append(h('article', { class: 'card' }, h('span', { class: 'tag', text: n.tag }), h('h3', { text: n.title }), h('p', { text: n.text }))));
+EVENTS.forEach(e => $('#cal').append(h('li', {}, h('div', { class: 'date' }, h('b', { text: e.d }), h('small', { text: e.m })), h('span', { text: e.t }))));
+
+/* ===== דירוג ===== */
+function renderRank() {
+  const box = $('#rank'); box.textContent = '';
+  const rows = getClasses().map(c => ({ c, ...ratingOf(c.id) })).filter(x => x.n).sort((a, b) => b.avg - a.avg);
+  if (!rows.length) { box.append(h('div', { class: 'empty', text: 'עדיין אין דירוגים. דרגו חוג בקטלוג והוא יופיע כאן.' })); }
+  rows.forEach(x => box.append(h('div', { class: 'rank-row' }, h('span', { class: 'nm', text: x.c.title }), h('div', { class: 'track' }, h('i', { style: 'width:' + (x.avg / 5 * 100) + '%' })), h('span', { class: 'val', text: x.avg.toFixed(1) + ' / 5 · ' + x.n }))));
+  $('#rankNote').textContent = S.dbLive ? '' : (S.db ? 'טוען דירוגים…' : 'כדי לדרג יש להיכנס לחשבון.');
+}
+/* ===== הצבעה ===== */
+function renderPoll() {
+  const box = $('#poll'); box.textContent = '';
+  const tally = {}; let total = 0;
+  S.votesDocs.forEach(d => { const p = d.data.poll; if (p) { tally[p] = (tally[p] || 0) + 1; total++; } });
+  const mine = myDoc().poll;
+  CONFIG.pollOptions.forEach(o => {
+    const n = tally[o.id] || 0, pct = total ? Math.round(n / total * 100) : 0;
+    box.append(h('button', { class: 'opt', type: 'button', 'aria-pressed': String(mine === o.id), onclick: () => castPoll(o.id) },
+      h('i', { class: 'fill', style: 'width:' + pct + '%' }), h('span', { text: o.label }), h('span', { text: n + ' קולות · ' + pct + '%' })));
+    if (!S.uid) box.lastChild.setAttribute('disabled', '');
+  });
+  $('#pollNote').textContent = S.uid ? (mine ? 'הצבעתם. אפשר לשנות בלחיצה על אפשרות אחרת.' : 'לחצו על אפשרות כדי להצביע.') : 'כדי להצביע יש להיכנס לחשבון.';
+}
+let writeQ = Promise.resolve();
+function saveVote(patch) {
+  if (!S.db || !S.uid) { toast('כדי להשתתף יש להיכנס לחשבון'); return; }
+  const cur = myDoc(); const next = { ...cur, ...patch };
+  // עדכון מיידי מקומי
+  const i = S.votesDocs.findIndex(d => d.id === S.uid); const rec = { id: S.uid, data: next };
+  if (i >= 0) S.votesDocs[i] = rec; else S.votesDocs.push(rec); recompute(); renderAll();
+  writeQ = writeQ.then(() => S.db.doc('votes/' + S.uid).set(next)).catch(() => toast('השמירה נכשלה. נסו שוב.'));
+}
+function rate(id, n) { const r = { ...(myDoc().ratings || {}), [id]: n }; saveVote({ ratings: r }); toast('תודה על הדירוג'); }
+function castPoll(id) { saveVote({ poll: id }); toast('ההצבעה נקלטה'); }
+function recompute() {
+  const r = {}; S.votesDocs.forEach(d => { const m = d.data.ratings || {}; for (const k in m) { const v = +m[k]; if (v >= 1 && v <= 5) { (r[k] = r[k] || { sum: 0, n: 0 }); r[k].sum += v; r[k].n++; } } });
+  S.ratings = r;
+}
+
+/* ===== פורום ===== */
+async function renderForum() {
+  const box = $('#posts');
+  const ids = [...new Set([...S.posts, ...S.replies].map(x => x.data.authorId).filter(Boolean))];
+  let prof = {}; try { if (S.user && ids.length) prof = await S.user.profiles(ids); } catch (e) {}
+  const nm = id => (prof[id] && prof[id].name) || 'משתתף/ת';
+  box.textContent = '';
+  $('#forumNote').textContent = S.uid ? '' : (S.db ? '' : 'כדי לפרסם ולהגיב יש להיכנס לחשבון.');
+  if (!S.posts.length) { box.append(h('div', { class: 'empty', text: S.dbLive ? 'עדיין אין שיחות. פתחו את הנושא הראשון.' : 'טוען שיחות…' })); return; }
+  S.posts.forEach(p => {
+    const d = p.data, reps = S.replies.filter(r => r.data.postId === p.id).sort((a, b) => a.data.createdAt - b.data.createdAt);
+    const canDel = S.uid && (d.authorId === S.uid || S.admin);
+    const card = h('article', { class: 'card post' },
+      h('span', { class: 'tag', text: d.cat || 'כללי' }),
+      h('h3', { text: d.title }), h('div', { class: 'by', text: nm(d.authorId) + ' · ' + fmtDate(d.createdAt) }),
+      h('p', { text: d.body }));
+    if (canDel) card.append(h('button', { class: 'link', type: 'button', text: 'מחיקת הנושא', onclick: () => S.db.doc('posts/' + p.id).delete().then(() => reps.forEach(r => S.db.doc('replies/' + r.id).delete())).catch(() => toast('המחיקה נכשלה')) }));
+    if (reps.length) card.append(h('div', { class: 'replies' }, reps.map(r => h('div', {}, h('div', { class: 'by', text: nm(r.data.authorId) + ' · ' + fmtDate(r.data.createdAt) }), h('p', { text: r.data.body })))));
+    const inp = h('input', { type: 'text', maxlength: '600', placeholder: 'כתבו תגובה…', 'aria-label': 'תגובה', id: 'rep-' + p.id, value: S.open[p.id] || '' });
+    inp.addEventListener('input', () => S.open[p.id] = inp.value);
+    card.append(h('form', { class: 'reply-form', onsubmit: ev => { ev.preventDefault(); const t = inp.value.trim(); if (!t) return; if (!S.uid) return toast('כדי להגיב יש להיכנס לחשבון'); S.open[p.id] = ''; S.db.collection('replies').add({ postId: p.id, authorId: S.uid, body: t, createdAt: Date.now() }).catch(() => toast('השליחה נכשלה')); } }, inp, h('button', { class: 'btn sm', type: 'submit', text: 'שליחה' })));
+    box.append(card);
+  });
+}
+$('#postForm').addEventListener('submit', async ev => {
+  ev.preventDefault();
+  if (!S.db || !S.uid) return toast('כדי לפרסם יש להיכנס לחשבון');
+  const title = $('#pTitle').value.trim(), body = $('#pBody').value.trim(); if (!title || !body) return;
+  try { await S.db.collection('posts').add({ authorId: S.uid, cat: $('#pCat').value, title, body, createdAt: Date.now() }); $('#pTitle').value = ''; $('#pBody').value = ''; toast('הנושא פורסם'); }
+  catch (e) { toast('הפרסום נכשל. נסו שוב.'); }
+});
+
+function renderAll() { renderGrid(); renderRank(); renderPoll(); }
+
+/* ===== ניהול ===== */
+let assetsApi = null, editing = null, confirmDel = null;
+function applySettings() {
+  const s = S.site || {};
+  if (s.city) CONFIG.city = s.city;
+  if (s.contact) CONFIG.contact = s.contact;
+  CONFIG.providers.clicket.url = s.clicket || ''; CONFIG.providers.nedarim.url = s.nedarim || '';
+  $('#brandName').textContent = s.brand || ('חוגים ב' + CONFIG.city);
+  $('#footName').textContent = s.brand || CONFIG.city;
+  $('#contact').textContent = CONFIG.contact;
+  const m = $('#logoMark');
+  if (s.logoId) { m.textContent = ''; m.style.background = 'none'; m.append(h('img', { src: '/_blob/' + s.logoId, alt: '', style: 'width:100%;height:100%;object-fit:contain' })); }
+  else { m.textContent = ''; m.style.background = ''; }
+  renderGrid();
+}
+async function shrink(file, max, type) {
+  try {
+    const bmp = await createImageBitmap(file); const k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+    const cv = document.createElement('canvas'); cv.width = Math.round(bmp.width * k); cv.height = Math.round(bmp.height * k);
+    cv.getContext('2d').drawImage(bmp, 0, 0, cv.width, cv.height);
+    return await new Promise(r => cv.toBlob(b => r(b || file), type, 0.85));
+  } catch (e) { return file; }
+}
+async function pickImage(max, type, done) {
+  const inp = h('input', { type: 'file', accept: 'image/*' });
+  inp.onchange = async () => {
+    const f = inp.files && inp.files[0]; if (!f) return;
+    try { toast('מעלה תמונה…'); const r = await assetsApi.upload(await shrink(f, max, type)); done(r.id); toast('התמונה הועלתה'); }
+    catch (e) { toast('העלאת התמונה נכשלה'); }
+  };
+  inp.click();
+}
+const fld = (label, el) => h('label', { class: 'f' }, label, el);
+function openAdmin() { $('#adminOv').hidden = false; editing = editing || { id: null, data: blankClass() }; renderAdmin(); }
+function closeAdmin() { $('#adminOv').hidden = true; }
+const blankClass = () => ({ title: '', cat: '', when: '', place: '', price: 0, seats: 20, taken: 0, provider: 'clicket', url: '', imageId: '', hidden: false });
+function renderAdmin() {
+  const P = $('#adminPanel'); P.textContent = '';
+  const site = S.site || {};
+  // --- הגדרות ---
+  const st = { brand: h('input', { id: 'st_brand', value: site.brand || '' }), city: h('input', { id: 'st_city', value: site.city || CONFIG.city }), contact: h('input', { id: 'st_contact', value: site.contact || '' }),
+    clicket: h('input', { id: 'st_clk', type: 'url', dir: 'ltr', placeholder: 'https://', value: site.clicket || '' }), nedarim: h('input', { id: 'st_ned', type: 'url', dir: 'ltr', placeholder: 'https://', value: site.nedarim || '' }) };
+  let logoId = site.logoId || '';
+  const logoPrev = h('div', { style: 'width:64px;height:64px;border:1px solid var(--line);border-radius:.8rem;display:grid;place-items:center;overflow:hidden;background:var(--surface)' });
+  const paintLogo = () => { logoPrev.textContent = ''; logoPrev.append(logoId ? h('img', { src: '/_blob/' + logoId, alt: '', style: 'max-width:100%;max-height:100%' }) : h('span', { class: 'note', text: 'אין' })); };
+  paintLogo();
+  const logoBar = h('div', { class: 'a-bar' }, logoPrev,
+    assetsApi ? h('button', { class: 'btn ghost sm', type: 'button', text: 'העלאת לוגו', onclick: () => pickImage(400, 'image/png', id => { logoId = id; paintLogo(); }) }) : h('span', { class: 'note', text: 'העלאת תמונות זמינה למנהלי האתר בלבד' }),
+    h('button', { class: 'btn ghost sm', type: 'button', text: 'הסרה', onclick: () => { logoId = ''; paintLogo(); } }));
+  const saveSite = h('button', { class: 'btn', type: 'button', text: 'שמירת הגדרות', onclick: () => {
+    const d = { brand: st.brand.value.trim(), city: st.city.value.trim(), contact: st.contact.value.trim(), clicket: st.clicket.value.trim(), nedarim: st.nedarim.value.trim(), logoId };
+    S.site = d; applySettings();
+    writeQ = writeQ.then(() => S.db.doc('site/main').set(d)).then(() => toast('ההגדרות נשמרו')).catch(() => toast('השמירה נכשלה'));
+  } });
+  P.append(h('div', { class: 'a-bar', style: 'justify-content:space-between' }, h('h2', { text: 'ניהול האתר' }), h('button', { class: 'btn ghost sm', type: 'button', text: 'סגירה', onclick: closeAdmin })),
+    h('section', {}, h('h3', { text: 'הגדרות כלליות ולוגו' }),
+      h('div', { class: 'a-grid' }, fld('שם האתר (אופציונלי)', st.brand), fld('שם העיר או הרשות', st.city), fld('פרטי יצירת קשר', st.contact), fld('קישור כללי לקליקט', st.clicket), fld('קישור כללי לנדרים פלוס', st.nedarim), fld('לוגו', logoBar)),
+      h('div', { class: 'a-bar', style: 'margin-top:1rem' }, saveSite)));
+  // --- חוגים ---
+  const list = h('div', { class: 'a-list' });
+  const dbList = S.classes;
+  dbList.forEach(c => list.append(h('div', { class: 'a-row' + (editing && editing.id === c.id ? ' sel' : '') },
+    h('span', { text: (c.hidden ? '(מוסתר) ' : '') + (c.title || 'ללא שם') }),
+    h('button', { class: 'btn ghost sm', type: 'button', text: 'עריכה', onclick: () => { editing = { id: c.id, data: { ...blankClass(), ...c } }; confirmDel = null; renderAdmin(); } }))));
+  if (!dbList.length) list.append(h('div', { class: 'empty', text: 'עדיין לא הוגדרו חוגים. כרגע מוצגים חוגי הדוגמה.' }), h('button', { class: 'btn ghost sm', type: 'button', text: 'ייבוא חוגי הדוגמה לעריכה', onclick: seedDemo }));
+  const d = editing.data;
+  const f = {
+    title: h('input', { id: 'a_title', value: d.title }), cat: h('input', { id: 'a_cat', value: d.cat, list: 'catList' }), when: h('input', { id: 'a_when', value: d.when, placeholder: 'ימי ב׳ · 18:00' }), place: h('input', { id: 'a_place', value: d.place }),
+    price: h('input', { id: 'a_price', type: 'number', min: '0', value: d.price }), seats: h('input', { id: 'a_seats', type: 'number', min: '0', value: d.seats }), taken: h('input', { id: 'a_taken', type: 'number', min: '0', value: d.taken || 0 }),
+    provider: h('select', { id: 'a_prov' }, h('option', { value: 'clicket', text: 'קליקט' }), h('option', { value: 'nedarim', text: 'נדרים פלוס' })), url: h('input', { id: 'a_url', type: 'url', dir: 'ltr', placeholder: 'https://', value: d.url || '' }),
+    hidden: h('input', { id: 'a_hid', type: 'checkbox' })
+  };
+  f.provider.value = d.provider || 'clicket'; f.hidden.checked = !!d.hidden;
+  const prev = h('div', { class: 'a-bar' });
+  const paintImg = () => { prev.textContent = ''; prev.append(d.imageId ? h('img', { class: 'a-prev', src: '/_blob/' + d.imageId, alt: '' }) : h('div', { class: 'a-prev', style: 'display:grid;place-items:center;color:var(--muted)', text: 'ללא תמונה' }),
+    assetsApi ? h('button', { class: 'btn ghost sm', type: 'button', text: 'העלאת תמונת פרסום', onclick: () => pickImage(1200, 'image/jpeg', id => { d.imageId = id; paintImg(); }) }) : h('span', { class: 'note', text: 'העלאת תמונות לא זמינה' }),
+    d.imageId ? h('button', { class: 'btn ghost sm', type: 'button', text: 'הסרה', onclick: () => { d.imageId = ''; paintImg(); } }) : '' ); };
+  paintImg();
+  const collect = () => ({ ...d, title: f.title.value.trim(), cat: f.cat.value.trim() || 'כללי', when: f.when.value.trim(), place: f.place.value.trim(), price: +f.price.value || 0, seats: +f.seats.value || 0, taken: +f.taken.value || 0, provider: f.provider.value, url: f.url.value.trim(), hidden: f.hidden.checked, createdAt: d.createdAt || Date.now() });
+  const bar = h('div', { class: 'a-bar' }, h('button', { class: 'btn', type: 'button', text: editing.id ? 'שמירת שינויים' : 'הוספת החוג', onclick: async () => {
+    const v = collect(); if (!v.title) return toast('נא למלא שם חוג');
+    try { if (editing.id) { await S.db.doc('classes/' + editing.id).set(v); } else { const r = await S.db.collection('classes').add(v); editing = { id: r.id, data: v }; } toast('החוג נשמר'); renderAdmin(); }
+    catch (e) { toast('השמירה נכשלה'); } } }),
+    h('button', { class: 'btn ghost', type: 'button', text: 'חוג חדש', onclick: () => { editing = { id: null, data: blankClass() }; renderAdmin(); } }));
+  if (editing.id) bar.append(h('button', { class: 'btn danger', type: 'button', text: confirmDel === editing.id ? 'לחצו שוב לאישור מחיקה' : 'מחיקה', onclick: async () => {
+    if (confirmDel !== editing.id) { confirmDel = editing.id; return renderAdmin(); }
+    try { await S.db.doc('classes/' + editing.id).delete(); toast('החוג נמחק'); } catch (e) { toast('המחיקה נכשלה'); }
+    editing = { id: null, data: blankClass() }; confirmDel = null; renderAdmin(); } }));
+  const dl = h('datalist', { id: 'catList' }, [...new Set(getClasses().map(c => c.cat))].map(c => h('option', { value: c })));
+  P.append(h('section', {}, h('h3', { text: 'חוגים וסדנאות' }), h('div', { class: 'a-cols' }, list,
+    h('div', { style: 'display:grid;gap:.8rem' }, h('b', { text: editing.id ? 'עריכת חוג' : 'חוג חדש' }),
+      h('div', { class: 'a-grid' }, fld('שם החוג', f.title), fld('קטגוריה', f.cat), fld('יום ושעה', f.when), fld('מקום', f.place), fld('מחיר (₪)', f.price), fld('מספר מקומות', f.seats), fld('כרטיסים שנמכרו', f.taken), fld('מערכת סליקה', f.provider)),
+      fld('קישור ישיר לרכישת החוג', f.url), h('label', { class: 'f', style: 'grid-auto-flow:column;justify-content:start;align-items:center;gap:.6rem' }, f.hidden, 'הסתרת החוג מהאתר'),
+      h('div', { class: 'f' }, 'תמונת פרסום', prev), bar, dl))));
+}
+async function seedDemo() {
+  try { for (let i = 0; i < DEMO.length; i++) { const { id, ...c } = DEMO[i]; await S.db.collection('classes').add({ ...c, imageId: '', createdAt: Date.now() + i }); } toast('חוגי הדוגמה יובאו. אפשר לערוך אותם.'); }
+  catch (e) { toast('הייבוא נכשל'); }
+}
+$('#adminBtn').addEventListener('click', openAdmin);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#adminOv').hidden) closeAdmin(); });
+
+/* ===== אתחול ===== */
+stubInit(); renderChips(); renderAll(); renderForum();
+(async () => {
+  const c = window.claude; if (!c || !c.use) { $('#forumNote').textContent = 'הפורום והדירוגים זמינים רק בצפייה באתר המפורסם.'; return; }
+  try { S.user = await c.use('user'); if (S.user) { S.uid = await S.user.id(); S.admin = await S.user.canEdit(); } } catch (e) {}
+  try { S.db = await c.use('db'); } catch (e) {}
+  if (!S.db) { renderAll(); renderForum(); return; }
+  const slow = setTimeout(() => { if (!S.dbLive) $('#posts').firstChild && ($('#posts').firstChild.textContent = 'החיבור איטי מהצפוי. הנתונים יופיעו ברגע שיגיעו.'); }, 10000);
+  const live = () => { S.dbLive = true; clearTimeout(slow); };
+  const toList = s => s.docs.map(d => ({ id: d.id, data: d.data() || {} }));
+  S.db.collection('votes').onSnapshot(s => { live(); S.votesDocs = toList(s); recompute(); renderAll(); }, () => {});
+  S.db.collection('posts').orderBy('createdAt', 'desc').limit(100).onSnapshot(s => { live(); S.posts = toList(s); renderForum(); }, () => {});
+  S.db.collection('classes').orderBy('createdAt').limit(200).onSnapshot(sn => { live(); S.classes = toList(sn).map(x => ({ id: x.id, ...x.data })); renderChips(); stubInit(); renderAll(); if (!$('#adminOv').hidden) renderAdmin(); }, () => {});
+  S.db.doc('site/main').onSnapshot(sn => { S.site = sn.exists ? sn.data() : {}; applySettings(); }, () => {});
+  if (S.admin) { try { assetsApi = await c.use('assets'); } catch (e) {} $('#adminBtn').hidden = false; }
+  S.db.collection('replies').limit(600).onSnapshot(s => { S.replies = toList(s); renderForum(); }, () => {});
+  renderAll();
+})();
+</script>
+
+</body></html>
+<!-- Injection By NetFree -->
+<script src="//netfree.link/injection-script/go-payment.js" type="text/javascript" async ></script>
+<script src="//netfree.link/injection-script/popup-card-init.js" type="text/javascript" async ></script>
